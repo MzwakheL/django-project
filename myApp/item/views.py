@@ -9,6 +9,16 @@ from .models import Category, Item
 # Create your views here.
 
 def items(request):
+    """
+    View function for displaying items.
+
+    The view displays a list of items based on optional query parameters.
+
+    Query parameters:
+        - query: A search query string.
+        - category: The ID of a category to filter the items.
+
+    """
     query = request.GET.get('query,' '')
     category_id = request.GET.get('category', 0)
     categories = Category.objects.all()
@@ -28,6 +38,13 @@ def items(request):
     })
 
 def detail(request, pk): 
+    """
+    View function for displaying item details.
+
+    Args:
+        - pk: The primary key of the item.
+
+    """
     item = get_object_or_404(Item, pk=pk)
 
     return render(request, 'items/detail.html', {
@@ -37,6 +54,12 @@ def detail(request, pk):
 
 @login_required
 def new(request):
+    """
+    View function for creating a new item.
+
+    The view handles a form to create a new item and save it to the database.
+
+    """
     if request.method == 'POST':
         form = NewItemForm(request.POST, request.FILES)
 
@@ -56,6 +79,13 @@ def new(request):
 
 @login_required
 def delete(request, pk):
+    """
+    View function for deleting an item.
+
+    Args:
+        - pk: The primary key of the item.
+
+    """
     item = get_object_or_404(Item, pk=pk, created_by=request.user)
     item.delete()
 

@@ -7,6 +7,18 @@ from .forms import SignupForm
 # Create your views here.
 
 def index(request):
+    """
+    Render the index page with a list of items and categories.
+
+    Retrieves all items and categories from the database and passes them to the template.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+    """
+
     items = Item.objects.filter()
     categories = Category.objects.all()
 
@@ -16,9 +28,32 @@ def index(request):
     })
 
 def contact(request):
+    """
+    Render the contact page.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+    """
     return render(request, 'band/contact.html')
 
 def signup(request):
+    """
+    Render the signup page and handle the signup form submission.
+
+    If the request method is POST, validate the form data and create a new user account.
+    If the form is valid, save the form and redirect to the login page.
+    If there is an error, display an error message.
+    If the request method is GET, display an empty signup form.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The HTTP response object.
+    """
     if request.method == 'POST':
         form = SignupForm(request.POST)
 
